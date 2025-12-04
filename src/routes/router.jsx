@@ -8,6 +8,9 @@ import AuthLayout from "../layouts/AuthLayout";
 import { register } from "swiper/element";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
+import PrivateRoute from "./PrivateRoute";
+import Rider from "../pages/Rider/Rider";
+import SendParcel from "../pages/sendParcel/SendParcel";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +20,15 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: 'rider',
+        element: <PrivateRoute><Rider></Rider></PrivateRoute>
+      },
+      {
+       path: 'send-parcel',
+       element: <PrivateRoute><SendParcel></SendParcel></PrivateRoute>,
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
       },
       {
         path: "coverage",
