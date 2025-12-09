@@ -4,16 +4,15 @@ import { Link, NavLink } from "react-router";
 import useAuth from "../../../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
 
-   const {user, logOut} = useAuth();
-
-   const handleLogOut  = () =>{
+  const handleLogOut = () => {
     logOut()
-    .then()
-    .catch(error =>{
-      console.log(error)
-    } )
-   }
+      .then()
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const links = (
     <>
@@ -27,10 +26,22 @@ const Navbar = () => {
         <NavLink to="/send-parcel">Send Parcel</NavLink>
       </li>
       <li>
+        <NavLink to="/rider">Be a Rider</NavLink>
+      </li>
+      <li>
         <NavLink to="/coverage">Coverage</NavLink>
       </li>
+
+      {user && (
+        <>
+          <li>
+            <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -59,21 +70,27 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">
+        <span className="btn btn-ghost text-xl">
           <Logo></Logo>
-        </a>
+        </span>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-       {
-        user ?  <a onClick={ handleLogOut } className="btn">Sign Out</a> : <Link className="btn" to="/login">Login</Link>
-       }
+        {user ? (
+          <a onClick={handleLogOut} className="btn">
+            Sign Out
+          </a>
+        ) : (
+          <Link className="btn" to="/login">
+            Login
+          </Link>
+        )}
 
-      <Link className="btn btn-primary text-black mx-4" to="/rider">Be a Rider</Link>
-
-
+        <Link className="btn btn-primary text-black mx-4" to="/rider">
+          Be a Rider
+        </Link>
       </div>
     </div>
   );
